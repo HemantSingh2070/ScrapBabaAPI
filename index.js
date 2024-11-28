@@ -7,7 +7,7 @@ const userRouter = require("./routes/user");
 const scrapRouter = require("./routes/scraps");
 app.use(express.urlencoded({ extended: false }));
 app.use(bodyParser.json());
-
 app.use("/user", userRouter);
 app.use("/scrap", scrapRouter);
+
 app.listen(PORT);
