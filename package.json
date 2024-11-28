@@ -14,7 +14,6 @@
     "express": "^4.21.1",
     "mysql2": "^3.11.4",
     "nodemon": "^3.1.7",
-    "twilio": "^5.3.6",
-    "whatsapp": "^0.0.5-Alpha"
+    "twilio": "^5.3.6"
   }
 }
