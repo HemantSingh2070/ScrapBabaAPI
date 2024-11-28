@@ -1,7 +1,7 @@
 const twilio = require("twilio");
 
 const accountSid = process.env.TWILIO_ACCOUNT_SID;
-const authToken = process.env.TWILIO_AUTH_TOKEN;
+const authToken = "7fadd660fe778ad2a0aa04176c501d39";
 const client = twilio(accountSid, authToken);
 
 const sendMessage = async (messageBody, toPhoneNumber) => {
