@@ -7,11 +7,11 @@ const client = twilio(accountSid, authToken);
 const sendMessage = async (messageBody, toPhoneNumber) => {
   try {
     const message = await client.messages.create({
-      from: "+12294595643", // Replace with your Twilio phone number
+      from: "+12294595643",
       body: messageBody,
-      to: toPhoneNumber, // The recipient's phone number
+      to: toPhoneNumber,
     });
-    return message.sid;
+    return console.log("Message sent successfully:", message.sid);
   } catch (error) {
     console.error("Error sending SMS:", error);
     throw error;
