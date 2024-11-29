@@ -11,7 +11,7 @@ const sendMessage = async (messageBody, toPhoneNumber) => {
       body: messageBody,
       to: toPhoneNumber,
     });
-    return console.log("Message sent successfully:", message.sid);
+    return message.sid;
   } catch (error) {
     console.error("Error sending SMS:", error);
     throw error;
