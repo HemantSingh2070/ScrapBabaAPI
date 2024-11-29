@@ -12,7 +12,7 @@ Welcome to the API documentation for the **Scrap Baba** platform. This API allow
   ```json
   {
     "name": "Lallu",
-    "phone": "+919454919239",
+    "phone": "+91945491929",
     "city": "Ghaziabad",
     "scrapType": "Paper",
     "scrapWeight": 15.8,
@@ -51,7 +51,7 @@ Welcome to the API documentation for the **Scrap Baba** platform. This API allow
   {
     "name": "Hemant Singh",
     "city": "Ghaziabad",
-    "phone": "+919454919239"
+    "phone": "+919458119239"
   }
   ```
 - **Response**:
