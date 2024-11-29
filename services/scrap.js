@@ -1,5 +1,6 @@
 const e = require("express");
 const pool = require("./db");
+const { sendMessage } = require("./message");
 // Add new scrap function ->
 async function handleAddScrap(scrap) {
   try {
