@@ -7,8 +7,8 @@ const client = twilio(accountSid, authToken);
 const sendMessage = async (messageBody, toPhoneNumber) => {
   try {
     const message = await client.messages.create({
-      from: "+12294595643",
       body: messageBody,
+      from: "+12294595643",
       to: toPhoneNumber,
     });
     return message.sid;

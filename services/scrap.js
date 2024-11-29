@@ -1,32 +1,30 @@
+const e = require("express");
 const pool = require("./db");
 // Add new scrap function ->
-const { sendMessage } = require("./message");
 async function handleAddScrap(scrap) {
   try {
-    let result;
-    try {
-      result = await pool.query(
-        "INSERT INTO scrap (name, phone, city, scrapType, scrapWeight, location, pricePerKg) VALUES (?, ?, ?, ?, ?, ?, ?)",
-        [
-          scrap.name,
-          scrap.phone,
-          scrap.city,
-          scrap.scrapType,
-          scrap.scrapWeight,
-          scrap.location,
-          scrap.pricePerKg,
-        ]
-      );
-    } catch (error) {
-      throw new Error("Failed to add scrap to database");
-    }
+    // Insert scrap into the database
+    const result = await pool.query(
+      "INSERT INTO scrap (name, phone, city, scrapType, scrapWeight, location, pricePerKg) VALUES (?, ?, ?, ?, ?, ?, ?)",
+      [
+        scrap.name,
+        scrap.phone,
+        scrap.city,
+        scrap.scrapType,
+        scrap.scrapWeight,
+        scrap.location,
+        scrap.pricePerKg,
+      ]
+    );
 
+    // Query users in the same city
     const [usersInSameLocation] = await pool.query(
       "SELECT phone FROM users WHERE city = ?",
       [scrap.city]
     );
 
     if (usersInSameLocation.length > 0) {
+      // Prepare the message content
       const contentVariables = {
         1: scrap.scrapWeight,
         2: scrap.location,
@@ -37,10 +35,26 @@ async function handleAddScrap(scrap) {
       };
       const messageTemplate = `Weight: ${contentVariables[1]}, Location: ${contentVariables[2]}, Price per Kg: ${contentVariables[3]}, Type: ${contentVariables[4]}, Name: ${contentVariables[5]}, Phone: ${contentVariables[6]}`;
 
-      const sendMessagesPromises = usersInSameLocation.map((user) =>
-        sendMessage(messageTemplate, user.phone).catch((error) => {})
+      // Send messages to users
+      const sendMessagesResults = await Promise.allSettled(
+        usersInSameLocation.map((user) =>
+          sendMessage(messageTemplate, user.phone)
+        )
       );
-      await Promise.all(sendMessagesPromises);
+
+      // Log results of message sending
+      sendMessagesResults.forEach((result, index) => {
+        if (result.status === "fulfilled") {
+          console.log(
+            `Message sent successfully to ${usersInSameLocation[index].phone}`
+          );
+        } else {
+          console.error(
+            `Failed to send message to ${usersInSameLocation[index].phone}:`,
+            result.reason
+          );
+        }
+      });
     } else {
       console.log("No users found in the same location to send messages.");
     }
